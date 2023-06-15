@@ -1,5 +1,6 @@
 import 'package:app_flutter/dao/usuarioDAO.dart';
 import 'package:app_flutter/model/usuario.dart';
+import 'package:app_flutter/screens/menu.dart';
 import 'package:flutter/material.dart';
 
 class login extends StatefulWidget {
@@ -33,13 +34,15 @@ class _loginState extends State<login> {
               height: MediaQuery.of(context).size.height * 0.35,
               child: Column(
                 children: [
-                  TextField(
+                  Text("Logar",style: TextStyle(fontSize: 30),),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                         labelText: "Email"
                     ),
                     controller: _emailLogin,
                   ),
-                  TextField(
+                  TextFormField(
                     controller: _senhaLogin,
                     obscureText: _obscureText,
                     decoration: InputDecoration(
@@ -67,7 +70,7 @@ class _loginState extends State<login> {
                         });
                       }else if(usuario.senha == _senhaLogin.text){
                         setState(() {
-                          print("\n\nlogou\n\n");
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> menu()));
                           _emailLogin.clear();
                           _senhaLogin.clear();
                         });
@@ -100,20 +103,33 @@ class _loginState extends State<login> {
             Container(
               child: Column(
                 children: [
-                  TextField(
+                  Text("Criar Conta",style: TextStyle(fontSize: 30),),
+                  TextFormField(
+                    keyboardType: TextInputType.name,
                     controller: _nameController,
                     decoration: InputDecoration(labelText: 'Nome'),
                   ),
-                  TextField(
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
                     controller: _emailController,
                     decoration: InputDecoration(labelText: 'Email'),
                   ),
-                  TextField(
+                  TextFormField(
                     controller: _passwordController,
-                    decoration: InputDecoration(labelText: 'Senha'),
-                    obscureText: true,
+                    obscureText: _obscureText,
+                    decoration: InputDecoration(
+                      labelText: 'Senha',
+                      suffixIcon: IconButton(
+                        icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      ),
+                    ),
                   ),
-                  TextField(
+                  TextFormField(
                     controller: _phoneController,
                     decoration: InputDecoration(labelText: 'Telefone'),
                     keyboardType: TextInputType.phone,
@@ -133,6 +149,11 @@ class _loginState extends State<login> {
                       _passwordController.clear();
                       _emailController.clear();
                       _nameController.clear();
+
+                      setState(() {
+                        _selectedIndex = 0;
+                      });
+
                     },
                     icon: Icon(Icons.create),
                     label: Text("Criar Conta")
@@ -149,14 +170,19 @@ class _loginState extends State<login> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
+            label: "t",
             icon: Icon(Icons.login),
-            label: "Login"
+
           ),
           BottomNavigationBarItem(
+            label: "t",
             icon: Icon(Icons.create),
-            label: "Cria conta"
+
           )
         ],
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        iconSize: 35,
         backgroundColor: Colors.blue,
         selectedItemColor: Colors.white,
         currentIndex: _selectedIndex,
