@@ -1,4 +1,6 @@
+import 'package:app_flutter/dao/loteDAO.dart';
 import 'package:app_flutter/dao/produtoDAO.dart';
+import 'package:app_flutter/model/lote.dart';
 import 'package:app_flutter/model/produto.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +16,8 @@ class menu extends StatefulWidget {
 class _menuState extends State<menu> {
   TextEditingController _nomePorduto = new TextEditingController();
   TextEditingController _valorProduto = new TextEditingController();
-  TextEditingController _codigoLote = new TextEditingController();
-  TextEditingController _idProdLote = new TextEditingController();
+  TextEditingController _idLote = new TextEditingController();
+  int _idProdLote = 1;
   TextEditingController _qntdLote = new TextEditingController();
   TextEditingController _validadeLote = new TextEditingController();
 
@@ -88,7 +90,61 @@ class _menuState extends State<menu> {
           borderRadius: BorderRadius.circular(15)
         ),
         padding: EdgeInsets.all(15),
-        child: Text("fazer cadastro do lote")
+        child: Column(
+          children: [
+            FutureBuilder<List<Produto>>(
+                future: new ProdutoDAO().getProdutos(),
+                initialData: [],
+                builder: (context, snapshot){
+                  final List<Produto>? produtos = snapshot.data;
+                  produtos?.map((e) => print(e.codigo));
+                  return DropdownButton<int>(
+                    value: _idProdLote,
+                    onChanged: (change){
+                      setState(() {
+                        _idProdLote = change!;
+                      });
+                    },
+                    items: produtos?.map((fc) =>
+                        DropdownMenuItem<int>(
+                          child: Text(fc.nome),
+                          value: fc.codigo,
+                        )
+                    ).toList(),
+                  );
+              }
+            ),
+            TextFormField(
+              controller: _idLote,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(label: Text("Lote")),
+            ),
+            TextFormField(
+              controller: _validadeLote,
+              keyboardType: TextInputType.datetime,
+              decoration: InputDecoration(label: Text("Validade")),
+            ),
+            TextFormField(
+              controller: _qntdLote,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(label: Text("Quantidade")),
+            ),
+            ElevatedButton(
+              onPressed: (){
+                new LoteDAO().adicionar(new Lote(
+                    lote: int.tryParse(_idLote.text),
+                    produto: _idProdLote,
+                    qntd: int.tryParse(_qntdLote.text),
+                    validade: _validadeLote.text
+                ));
+                setState(() {
+
+                });
+              },
+              child: Text("Cadastrar"),
+            )
+          ],
+        ),
       ),
       Container(
         decoration: BoxDecoration(
