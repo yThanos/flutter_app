@@ -2,6 +2,7 @@ import 'package:app_flutter/dao/loteDAO.dart';
 import 'package:app_flutter/dao/produtoDAO.dart';
 import 'package:app_flutter/model/lote.dart';
 import 'package:app_flutter/model/produto.dart';
+import 'package:app_flutter/screens/qrcode.dart';
 import 'package:flutter/material.dart';
 
 import 'login.dart';
@@ -142,6 +143,13 @@ class _menuState extends State<menu> {
                 });
               },
               child: Text("Cadastrar"),
+            ),
+            FloatingActionButton(
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> qrcode()));
+              },
+              child: Icon(Icons.qr_code_2),
+
             )
           ],
         ),
@@ -157,6 +165,7 @@ class _menuState extends State<menu> {
     ];
     
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       appBar: AppBar(
         title: Text("Home"),
         actions: [

@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   sqflite:
   path:
+  camera:
+  qr_code_scanner: ^1.0.1
 
 
   # The following adds the Cupertino Icons font to your application.

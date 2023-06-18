@@ -14,4 +14,11 @@ class Lote{
       'validade': validade
     };
   }
+
+  Lote.fromJson(Map<String, dynamic> json):
+    produto = json['produto'],
+    lote = json['lote'],
+    validade = json['validade'],
+    qntd = json['qntd'];
+
 }
