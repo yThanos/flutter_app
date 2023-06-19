@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:app_flutter/dao/loteDAO.dart';
 import 'package:app_flutter/screens/menu.dart';
-import 'package:app_flutter/screens/resultado.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';

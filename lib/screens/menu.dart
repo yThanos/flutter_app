@@ -2,6 +2,7 @@ import 'package:app_flutter/dao/loteDAO.dart';
 import 'package:app_flutter/dao/produtoDAO.dart';
 import 'package:app_flutter/model/lote.dart';
 import 'package:app_flutter/model/produto.dart';
+import 'package:app_flutter/screens/lotesView.dart';
 import 'package:app_flutter/screens/qrcode.dart';
 import 'package:flutter/material.dart';
 
@@ -15,12 +16,12 @@ class menu extends StatefulWidget {
 }
 
 class _menuState extends State<menu> {
-  TextEditingController _nomePorduto = new TextEditingController();
-  TextEditingController _valorProduto = new TextEditingController();
-  TextEditingController _idLote = new TextEditingController();
+  final TextEditingController _nomePorduto = TextEditingController();
+  final TextEditingController _valorProduto = TextEditingController();
+  final TextEditingController _idLote = TextEditingController();
   int _idProdLote = 1;
-  TextEditingController _qntdLote = new TextEditingController();
-  TextEditingController _validadeLote = new TextEditingController();
+  final TextEditingController _qntdLote = TextEditingController();
+  final TextEditingController _validadeLote = TextEditingController();
 
   int _selectedIndex = 0;
   
@@ -46,13 +47,13 @@ class _menuState extends State<menu> {
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               controller: _valorProduto,
               decoration: InputDecoration(
-                label: Text("Valor")
+                  label: Text("Valor")
               ),
             ),
             ElevatedButton(
               onPressed: (){
-                Produto prod = new Produto(valor: double.tryParse(_valorProduto.text)!, nome: _nomePorduto.text);
-                new ProdutoDAO().adicionar(prod);
+                Produto prod = Produto(valor: double.tryParse(_valorProduto.text)!, nome: _nomePorduto.text);
+                ProdutoDAO().adicionar(prod);
                 _nomePorduto.clear();
                 _valorProduto.clear();
               },
@@ -63,38 +64,38 @@ class _menuState extends State<menu> {
       ),
       Container(
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15)
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15)
         ),
         padding: EdgeInsets.all(15),
         child: FutureBuilder<List<Produto>>(
-          future: new ProdutoDAO().getProdutos(),
+          future: ProdutoDAO().getProdutos(),
           initialData: [],
           builder: (context, snapshot){
             final List<Produto>? produtos = snapshot.data;
             return ListView.builder(
-              padding: EdgeInsets.all(20),
-              itemCount: produtos?.length,
-              itemBuilder: (context, i){
-              final Produto produto = produtos![i];
-              return new ListTile(
-                title: Text(produto.nome, style: TextStyle(fontSize: 24),),
-                subtitle: Text("preço: R\$ ${produto.valor.toStringAsFixed(2)}"),
-              );
-            });
+                padding: EdgeInsets.all(20),
+                itemCount: produtos?.length,
+                itemBuilder: (context, i){
+                  final Produto produto = produtos![i];
+                  return ListTile(
+                    title: Text(produto.nome, style: TextStyle(fontSize: 24),),
+                    subtitle: Text("preço: R\$ ${produto.valor.toStringAsFixed(2)}"),
+                  );
+                });
           },
         ),
       ),
       Container(
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15)
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15)
         ),
         padding: EdgeInsets.all(15),
         child: Column(
           children: [
             FutureBuilder<List<Produto>>(
-                future: new ProdutoDAO().getProdutos(),
+                future: ProdutoDAO().getProdutos(),
                 initialData: [],
                 builder: (context, snapshot){
                   final List<Produto>? produtos = snapshot.data;
@@ -113,7 +114,7 @@ class _menuState extends State<menu> {
                         )
                     ).toList(),
                   );
-              }
+                }
             ),
             TextFormField(
               controller: _idLote,
@@ -132,7 +133,7 @@ class _menuState extends State<menu> {
             ),
             ElevatedButton(
               onPressed: (){
-                new LoteDAO().adicionar(new Lote(
+                LoteDAO().adicionar(Lote(
                     lote: int.tryParse(_idLote.text),
                     produto: _idProdLote,
                     qntd: int.tryParse(_qntdLote.text),
@@ -154,18 +155,10 @@ class _menuState extends State<menu> {
           ],
         ),
       ),
-      Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15)
-        ),
-        padding: EdgeInsets.all(15),
-        child: Text("view produtos lotes validades etc")
-      )
+      LoteView()
     ];
     
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       appBar: AppBar(
         title: Text("Home"),
         actions: [
@@ -183,7 +176,7 @@ class _menuState extends State<menu> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.border_color_outlined),
             label: "Cadastrar",

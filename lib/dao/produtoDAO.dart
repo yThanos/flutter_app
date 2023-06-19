@@ -24,7 +24,7 @@ class ProdutoDAO{
     });
   }
 
-  Future<Produto> getProdutoById(int id) async {
+  Future<Produto> getProdutoById(int? id) async {
     final Database db = await getDatabase();
 
     final List<Map<String, dynamic>> map = await db.query('PRODUTOS', where: "codigo = ?", whereArgs: [id]);
