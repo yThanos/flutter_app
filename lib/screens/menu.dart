@@ -19,7 +19,7 @@ class _menuState extends State<menu> {
   final TextEditingController _nomePorduto = TextEditingController();
   final TextEditingController _valorProduto = TextEditingController();
   final TextEditingController _idLote = TextEditingController();
-  int _idProdLote = 1;
+  String _idProdLote = "Coca";
   final TextEditingController _qntdLote = TextEditingController();
   final TextEditingController _validadeLote = TextEditingController();
 
@@ -100,7 +100,7 @@ class _menuState extends State<menu> {
                 builder: (context, snapshot){
                   final List<Produto>? produtos = snapshot.data;
                   produtos?.map((e) => print(e.codigo));
-                  return DropdownButton<int>(
+                  return DropdownButton<String>(
                     value: _idProdLote,
                     onChanged: (change){
                       setState(() {
@@ -108,9 +108,9 @@ class _menuState extends State<menu> {
                       });
                     },
                     items: produtos?.map((fc) =>
-                        DropdownMenuItem<int>(
+                        DropdownMenuItem<String>(
                           child: Text(fc.nome),
-                          value: fc.codigo,
+                          value: fc.nome,
                         )
                     ).toList(),
                   );

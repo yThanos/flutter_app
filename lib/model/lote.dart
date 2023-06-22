@@ -1,5 +1,5 @@
 class Lote{
-  int? produto;
+  String? produto;
   int? lote;
   int? qntd;
   String? validade;

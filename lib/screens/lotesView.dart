@@ -1,7 +1,5 @@
 import 'package:app_flutter/dao/loteDAO.dart';
-import 'package:app_flutter/dao/produtoDAO.dart';
 import 'package:app_flutter/model/lote.dart';
-import 'package:app_flutter/model/produto.dart';
 import 'package:flutter/material.dart';
 
 class LoteView extends StatefulWidget {
@@ -24,15 +22,19 @@ class _LoteViewState extends State<LoteView> {
             builder: (BuildContext context, snapshot){
               List<Lote>? lotes = snapshot.data;
               if(lotes != null){
-                for(Lote lote in lotes){
-                  FutureBuilder<Produto>(
-                    future: ProdutoDAO().getProdutoById(lote.produto),
-                    builder: (BuildContext context, snapshot){
-
-                    },
-                  );
-                }
-              }
+                return ListView.builder(
+                  itemCount: lotes.length,
+                  itemBuilder: (BuildContext context, index){
+                    return ListTile(
+                      title: Text("${lotes[index].produto}"),
+                      subtitle: Text("${lotes[index].qntd}"),
+                    );
+                  },
+                );
+              }else{
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );}
             }
           )
         ],

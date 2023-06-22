@@ -27,7 +27,7 @@ class LoteDAO{
   Future<Lote> getProdutoById(int id) async {
     final Database db = await getDatabase();
 
-    final List<Map<String, dynamic>> map = await db.query('Lotes', where: "lote = ?", whereArgs: [id]);
+    final List<Map<String, dynamic>> map = await db.query('LOTES', where: "lote = ?", whereArgs: [id]);
 
     return Lote(
       lote: map[0]['lote'],
