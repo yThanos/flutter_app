@@ -39,7 +39,7 @@ class _qrcodeState extends State<qrcode> {
                   ? ElevatedButton(
                     onPressed: (){
                       Map<String, dynamic> lot = jsonDecode(result!.code!);
-                      Lote lote = Lote.fromJson(lot);
+                      Lote lote = Lote.fromMap(lot);
                       LoteDAO().adicionar(lote);
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
                         return menu();

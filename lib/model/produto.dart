@@ -10,7 +10,9 @@ class Produto{
       'valor': valor
     };
   }
-  Produto fromMap(Map<String, dynamic> map){
-    return Produto(valor: map['valor'], nome: map['nome'], codigo: map['codigo']);
-  }
+  Produto.fromMap(Map<String, dynamic> map):
+        valor = map['valor'],
+        nome = map['nome'],
+        codigo = map['codigo'];
+
 }

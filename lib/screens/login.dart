@@ -61,14 +61,7 @@ class _loginState extends State<login> {
                     onPressed: () async {
                       String email = _emailLogin.text;
                       Usuario usuario = await new UsuarioDAO().getUser(email);
-                      if(usuario.email == "emailNãosExistePuts"){
-                        showDialog(context: context, builder: (BuildContext context){
-                          return AlertDialog(
-                            title: Text("Conta não existe"),
-                            content: Text("O email informado não pertence a nenhuma conta"),
-                          );
-                        });
-                      }else if(usuario.senha == _senhaLogin.text){
+                      if(usuario.senha == _senhaLogin.text){
                         setState(() {
                           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> menu()));
                           _emailLogin.clear();
@@ -77,8 +70,8 @@ class _loginState extends State<login> {
                       }else{
                         showDialog(context: context, builder: (BuildContext context){
                           return AlertDialog(
-                            title: Text("Senha Errada"),
-                            content: Text("A senha que você informou esta incoreta!"),
+                            title: Text("Credencias incorretas"),
+                            content: Text("As credencias que você informou estão incorretas!"),
                           );
                         });
                       }

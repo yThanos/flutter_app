@@ -15,7 +15,10 @@ class Usuario{
     };
   }
 
-  Usuario fromMap(Map<String, dynamic> map){
-    return Usuario(email: map['email'], senha: map['senha'], codigo: map['codigo'], nome: map['nome'], telefone: map['telefone']);
-  }
+  Usuario.fromMap(Map<String, dynamic> map):
+    email = map['email'],
+    senha = map['senha'],
+    codigo = map['codigo'],
+    nome = map['nome'],
+    telefone = map['telefone'];
 }
