@@ -19,7 +19,7 @@ class _menuState extends State<menu> {
   final TextEditingController _nomePorduto = TextEditingController();
   final TextEditingController _valorProduto = TextEditingController();
   final TextEditingController _idLote = TextEditingController();
-  String _idProdLote = "Coca";
+  String _idProdLote = "COCA";
   final TextEditingController _qntdLote = TextEditingController();
   final TextEditingController _validadeLote = TextEditingController();
 

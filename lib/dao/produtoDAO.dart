@@ -1,38 +1,30 @@
-import 'package:sqflite/sqflite.dart';
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import '../model/produto.dart';
-import 'OpenDatabase.dart';
 
 class ProdutoDAO{
 
+  var _headers = {'Content-Type': 'application/json'};
+  var _url = Uri.parse("http://10.0.2.2:6969/flutter/produto");
+
   adicionar(Produto p) async{
-    final Database db = await getDatabase();
-    db.insert('PRODUTOS',p.toMap());
+    await http.post(_url,headers: _headers, body: jsonEncode(p.toMap()));
   }
 
   Future<List<Produto>> getProdutos() async {
-    final Database db = await getDatabase();
+    var response = await http.get(_url,headers: _headers);
 
-    final List<Map<String, dynamic>> maps = await db.query('PRODUTOS');
+    var jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
 
-    return List.generate(maps.length, (i) {
-      return Produto(
-          codigo: maps[i]['codigo'],
-          nome: maps[i]['nome'],
-          valor: maps[i]['valor']
-      );
-    });
+    return jsonResponse.map<Produto>((json)=> Produto.fromMap(json)).toList();
   }
 
   Future<Produto> getProdutoById(int? id) async {
-    final Database db = await getDatabase();
+    var response = await http.get(_url, headers: _headers);
 
-    final List<Map<String, dynamic>> map = await db.query('PRODUTOS', where: "codigo = ?", whereArgs: [id]);
+    var jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
 
-    return Produto(
-        nome: map[0]['nome'],
-        valor: map[0]['valor'],
-        codigo: map[0]['codigo']
-    );
+    return Produto.fromMap(jsonResponse);
   }
 }
