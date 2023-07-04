@@ -1,39 +1,31 @@
-import 'package:sqflite/sqflite.dart';
+import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import '../model/lote.dart';
-import 'OpenDatabase.dart';
 
 class LoteDAO{
+  final _url = Uri.parse("http://10.0.2.2:6969/flutter/lote");
+  final _header = {'Content-Type': 'application/json'};
+
   adicionar(Lote l) async{
-    final Database db = await getDatabase();
-    db.insert('LOTES',l.toMap());
+    print("teste3");
+    print(l.toMap());
+    await http.post(_url,headers: _header, body: jsonEncode(l.toMap()));
   }
 
   Future<List<Lote>> getLotes() async {
-    final Database db = await getDatabase();
+    var response = await http.get(_url, headers: _header);
 
-    final List<Map<String, dynamic>> maps = await db.query('LOTES');
+    var jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
 
-    return List.generate(maps.length, (i){
-      return Lote(
-        lote: maps[i]['lote'],
-        produto: maps[i]['produto'],
-        validade: maps[i]['validade'],
-        qntd: maps[i]['qntd']
-      );
-    });
+    return jsonResponse.map<Lote>((json)=> Lote.fromMap(json)).toList();
   }
 
   Future<Lote> getProdutoById(int id) async {
-    final Database db = await getDatabase();
+    var response = await http.get(_url, headers: _header);
 
-    final List<Map<String, dynamic>> map = await db.query('LOTES', where: "lote = ?", whereArgs: [id]);
+    var jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
 
-    return Lote(
-      lote: map[0]['lote'],
-      validade: map[0]['validade'],
-      produto: map[0]['produto'],
-      qntd: map[0]['qntd']
-    );
+    return Lote.fromMap(jsonResponse.map<Lote>((e)=> e['codigo'] = id));
   }
 }

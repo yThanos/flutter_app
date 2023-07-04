@@ -6,6 +6,7 @@ class Produto{
 
   Map<String, dynamic> toMap(){
     return {
+      'codigo': codigo,
       'nome': nome,
       'valor': valor
     };

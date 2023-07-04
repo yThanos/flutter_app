@@ -19,7 +19,7 @@ class _menuState extends State<menu> {
   final TextEditingController _nomePorduto = TextEditingController();
   final TextEditingController _valorProduto = TextEditingController();
   final TextEditingController _idLote = TextEditingController();
-  String _idProdLote = "COCA";
+  int _idProdLote = 1;
   final TextEditingController _qntdLote = TextEditingController();
   final TextEditingController _validadeLote = TextEditingController();
 
@@ -86,73 +86,75 @@ class _menuState extends State<menu> {
           },
         ),
       ),
-      Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15)
-        ),
-        padding: EdgeInsets.all(15),
-        child: Column(
-          children: [
-            FutureBuilder<List<Produto>>(
-                future: ProdutoDAO().getProdutos(),
-                initialData: [],
-                builder: (context, snapshot){
-                  final List<Produto>? produtos = snapshot.data;
-                  produtos?.map((e) => print(e.codigo));
-                  return DropdownButton<String>(
-                    value: _idProdLote,
-                    onChanged: (change){
-                      setState(() {
-                        _idProdLote = change!;
-                      });
-                    },
-                    items: produtos?.map((fc) =>
-                        DropdownMenuItem<String>(
-                          child: Text(fc.nome),
-                          value: fc.nome,
-                        )
-                    ).toList(),
-                  );
-                }
-            ),
-            TextFormField(
-              controller: _idLote,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(label: Text("Lote")),
-            ),
-            TextFormField(
-              controller: _validadeLote,
-              keyboardType: TextInputType.datetime,
-              decoration: InputDecoration(label: Text("Validade")),
-            ),
-            TextFormField(
-              controller: _qntdLote,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(label: Text("Quantidade")),
-            ),
-            ElevatedButton(
-              onPressed: (){
-                LoteDAO().adicionar(Lote(
-                    lote: int.tryParse(_idLote.text),
-                    produto: _idProdLote,
-                    qntd: int.tryParse(_qntdLote.text),
-                    validade: _validadeLote.text
-                ));
-                setState(() {
+      SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15)
+          ),
+          padding: EdgeInsets.all(15),
+          child: Column(
+            children: [
+              FutureBuilder<List<Produto>>(
+                  future: ProdutoDAO().getProdutos(),
+                  initialData: [],
+                  builder: (context, snapshot){
+                    final List<Produto>? produtos = snapshot.data;
+                    return DropdownButton<int>(
+                      value: _idProdLote,
+                      onChanged: (change){
+                        setState(() {
+                          _idProdLote = change!;
+                        });
+                      },
+                      items: produtos?.map((fc) =>
+                          DropdownMenuItem<int>(
+                            child: Text(fc.nome),
+                            value: fc.codigo,
+                          )
+                      ).toList(),
+                    );
+                  }
+              ),
+              TextFormField(
+                controller: _idLote,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(label: Text("Lote")),
+              ),
+              TextFormField(
+                controller: _validadeLote,
+                keyboardType: TextInputType.datetime,
+                decoration: InputDecoration(label: Text("Validade")),
+              ),
+              TextFormField(
+                controller: _qntdLote,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(label: Text("Quantidade")),
+              ),
+              ElevatedButton(
+                onPressed: ()async{
+                  print("teste");
+                  LoteDAO().adicionar(Lote(
+                      lote: int.tryParse(_idLote.text),
+                      produto: await ProdutoDAO().getProdutoById(_idProdLote),
+                      qntd: int.tryParse(_qntdLote.text),
+                      validade: _validadeLote.text
+                  ));
+                  setState(() {
 
-                });
-              },
-              child: Text("Cadastrar"),
-            ),
-            FloatingActionButton(
-              onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> qrcode()));
-              },
-              child: Icon(Icons.qr_code_2),
+                  });
+                },
+                child: Text("Cadastrar"),
+              ),
+              FloatingActionButton(
+                onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> qrcode()));
+                },
+                child: Icon(Icons.qr_code_2),
 
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
       LoteView()

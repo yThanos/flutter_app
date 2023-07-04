@@ -1,24 +1,29 @@
+import 'package:app_flutter/model/produto.dart';
+
 class Lote{
-  String? produto;
+  int? codigo;
+  Produto produto;
   int? lote;
   int? qntd;
   String? validade;
 
-  Lote({this.produto, this.lote, this.validade, this.qntd});
+  Lote({required this.produto, this.lote, this.validade, this.qntd, this.codigo});
 
   Map<String, dynamic> toMap() {
     return{
-      'produto': produto,
+      'codigo': codigo,
+      'produto': produto.toMap(),
       'lote': lote,
-      'qntd': qntd,
+      'quantidade': qntd,
       'validade': validade
     };
   }
 
   Lote.fromMap(Map<String, dynamic> json):
-    produto = json['produto'],
+    codigo = json['codigo'],
+    produto = Produto.fromMap(json['produto']),
     lote = json['lote'],
     validade = json['validade'],
-    qntd = json['qntd'];
+    qntd = json['quantidade'];
 
 }

@@ -22,7 +22,7 @@ class _LoteViewState extends State<LoteView> {
       child: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.73,
+            height: MediaQuery.of(context).size.height * 0.71,
             child: FutureBuilder<List<Lote>>(
               future: LoteDAO().getLotes(),
               initialData: [],
@@ -36,7 +36,7 @@ class _LoteViewState extends State<LoteView> {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("${lotes![index].produto}"),
+                            Text("${lotes![index].produto!.nome}"),
                             Text("Lote: ${lotes[index].lote}")
                           ],
                         ),

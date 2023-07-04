@@ -20,11 +20,12 @@ class ProdutoDAO{
     return jsonResponse.map<Produto>((json)=> Produto.fromMap(json)).toList();
   }
 
-  Future<Produto> getProdutoById(int? id) async {
-    var response = await http.get(_url, headers: _headers);
+  Future<Produto> getProdutoById(int id) async {
+    print("teste2");
+    var response = await http.get(Uri.parse("http://10.0.2.2:6969/flutter/produto/${id}"), headers: _headers);
 
     var jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
-
+    print(jsonResponse);
     return Produto.fromMap(jsonResponse);
   }
 }
