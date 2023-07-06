@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:app_flutter/dao/token.dart';
 import 'package:http/http.dart' as http;
 import '../model/produto.dart';
 
 class ProdutoDAO{
 
-  var _headers = {'Content-Type': 'application/json'};
-  var _url = Uri.parse("http://10.0.2.2:6969/flutter/produto");
+  final _headers = {'Content-Type': 'application/json','Authorization': 'Bearer ${TokenDao().getToken()}'};
+  final _url = Uri.parse("http://10.0.2.2:6969/flutter/produto");
 
   adicionar(Produto p) async{
     await http.post(_url,headers: _headers, body: jsonEncode(p.toMap()));

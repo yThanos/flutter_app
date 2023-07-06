@@ -3,6 +3,7 @@ class Usuario{
   String email;
   String senha;
   String? nome;
+  String? token;
   String? telefone;
   Usuario({required this.email, required this.senha, this.telefone, this.nome, this.codigo});
 
@@ -20,5 +21,6 @@ class Usuario{
     senha = map['senha'],
     codigo = map['codigo'],
     nome = map['nome'],
+    token = map['token'],
     telefone = map['telefone'];
 }

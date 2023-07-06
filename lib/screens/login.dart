@@ -1,3 +1,4 @@
+import 'package:app_flutter/dao/login.dart';
 import 'package:app_flutter/dao/usuarioDAO.dart';
 import 'package:app_flutter/model/usuario.dart';
 import 'package:app_flutter/screens/menu.dart';
@@ -59,9 +60,7 @@ class _loginState extends State<login> {
                   ),
                   ElevatedButton.icon(
                     onPressed: () async {
-                      String email = _emailLogin.text;
-                      Usuario usuario = await new UsuarioDAO().getUser(email);
-                      if(usuario.senha == _senhaLogin.text){
+                      if(await Login().logar(Usuario(email: _emailLogin.text.toUpperCase(), senha: _senhaLogin.text))){
                         setState(() {
                           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> menu()));
                           _emailLogin.clear();
