@@ -4,15 +4,13 @@ class Usuario{
   String senha;
   String? nome;
   String? token;
-  String? telefone;
-  Usuario({required this.email, required this.senha, this.telefone, this.nome, this.codigo});
+  Usuario({required this.email, required this.senha, this.nome, this.codigo});
 
   Map<String, dynamic> toMap(){
     return {
       'email': email,
       'senha': senha,
       'nome': nome,
-      'telefone': telefone
     };
   }
 
@@ -21,6 +19,5 @@ class Usuario{
     senha = map['senha'],
     codigo = map['codigo'],
     nome = map['nome'],
-    token = map['token'],
-    telefone = map['telefone'];
+    token = map['token'];
 }

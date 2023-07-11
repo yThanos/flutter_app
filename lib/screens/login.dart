@@ -1,5 +1,4 @@
 import 'package:app_flutter/dao/login.dart';
-import 'package:app_flutter/dao/usuarioDAO.dart';
 import 'package:app_flutter/model/usuario.dart';
 import 'package:app_flutter/screens/menu.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,6 @@ class _loginState extends State<login> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _emailLogin = TextEditingController();
   final TextEditingController _senhaLogin = TextEditingController();
   int _selectedIndex = 0;
@@ -84,7 +82,6 @@ class _loginState extends State<login> {
           ],
         ),
       ),
-      //divisoria
       Container(
         height: MediaQuery.of(context).size.height,
         color: Colors.white,
@@ -121,31 +118,29 @@ class _loginState extends State<login> {
                       ),
                     ),
                   ),
-                  TextFormField(
-                    controller: _phoneController,
-                    decoration: InputDecoration(labelText: 'Telefone'),
-                    keyboardType: TextInputType.phone,
-                  ),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      // Implemente a lógica para processar os dados do formulário
+                    onPressed: () async{
                       String name = _nameController.text;
                       String email = _emailController.text;
                       String password = _passwordController.text;
-                      String phone = _phoneController.text;
 
-                      Usuario user = Usuario(email: email, senha: password, nome: name, telefone: phone);
-                      new UsuarioDAO().adicionar(user);
 
-                      _phoneController.clear();
-                      _passwordController.clear();
-                      _emailController.clear();
-                      _nameController.clear();
-
-                      setState(() {
-                        _selectedIndex = 0;
-                      });
-
+                      Usuario user = Usuario(email: email, senha: password, nome: name);
+                      if(await Login().criarConta(user)){
+                        setState(() {
+                          _selectedIndex = 0;
+                        });
+                        _passwordController.clear();
+                        _emailController.clear();
+                        _nameController.clear();
+                      } else {
+                        showDialog(context: context, builder: (BuildContext context){
+                          return AlertDialog(
+                            title: Text("Erro!"),
+                            content: Text("Ocorreu um erro ao tentar criar o usuario!"),
+                          );
+                        });
+                      }
                     },
                     icon: Icon(Icons.create),
                     label: Text("Criar Conta")

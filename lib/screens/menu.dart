@@ -133,7 +133,6 @@ class _menuState extends State<menu> {
               ),
               ElevatedButton(
                 onPressed: ()async{
-                  print("teste");
                   LoteDAO().adicionar(Lote(
                       lote: int.tryParse(_idLote.text),
                       produto: await ProdutoDAO().getProdutoById(_idProdLote),
