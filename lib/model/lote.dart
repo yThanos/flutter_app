@@ -19,11 +19,13 @@ class Lote{
     };
   }
 
-  Lote.fromMap(Map<String, dynamic> json):
-    codigo = json['codigo'],
-    produto = Produto.fromMap(json['produto']),
-    lote = json['lote'],
-    validade = json['validade'],
-    qntd = json['quantidade'];
-
+  factory Lote.fromMap(Map<String, dynamic> json){
+    return Lote(
+      produto: Produto.fromMap(json['produto']),
+      codigo: json['codigo'],
+      qntd: json['quantidade'],
+      validade: json['validade'],
+      lote: json['lote']
+    );
+  }
 }

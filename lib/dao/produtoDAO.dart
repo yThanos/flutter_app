@@ -25,6 +25,6 @@ class ProdutoDAO{
     final header = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
     var response = await http.get(Uri.parse("http://10.0.2.2:8080/produtos/$id"), headers: header);
     var jsonResponse = jsonDecode(utf8.decode(response.bodyBytes));
-    return Produto.fromMap(jsonResponse.map<Produto>((e)=> e['codigo'] = id));
+    return Produto.fromMap(jsonResponse);
   }
 }

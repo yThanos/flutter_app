@@ -79,8 +79,8 @@ class _menuState extends State<menu> {
                 itemBuilder: (context, i){
                   final Produto produto = produtos![i];
                   return ListTile(
-                    title: Text(produto.nome, style: TextStyle(fontSize: 24),),
-                    subtitle: Text("preço: R\$ ${produto.valor.toStringAsFixed(2)}"),
+                    title: Text(produto.nome!, style: TextStyle(fontSize: 24),),
+                    subtitle: Text("preço: R\$ ${produto.valor?.toStringAsFixed(2)}"),
                   );
                 });
           },
@@ -109,7 +109,7 @@ class _menuState extends State<menu> {
                       },
                       items: produtos?.map((fc) =>
                           DropdownMenuItem<int>(
-                            child: Text(fc.nome),
+                            child: Text(fc.nome!),
                             value: fc.codigo,
                           )
                       ).toList(),
@@ -133,9 +133,10 @@ class _menuState extends State<menu> {
               ),
               ElevatedButton(
                 onPressed: ()async{
-                  LoteDAO().adicionar(Lote(
+                  Produto prod = await ProdutoDAO().getProdutoById(_idProdLote);
+                  await LoteDAO().adicionar(Lote(
                       lote: int.tryParse(_idLote.text),
-                      produto: await ProdutoDAO().getProdutoById(_idProdLote),
+                      produto: prod,
                       qntd: int.tryParse(_qntdLote.text),
                       validade: _validadeLote.text
                   ));
